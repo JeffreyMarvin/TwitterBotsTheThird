@@ -1,10 +1,10 @@
-package com.blitztiger.twitterBotsTheThird;
+package com.blitztiger.twitterBots2;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-import winterwell.jtwitter.Status;
+import winterwell.jtwitter.Twitter.Status;
 
 public class MarkovBot extends TwitterBot {
 	
@@ -28,7 +28,7 @@ public class MarkovBot extends TwitterBot {
 		savedStatuses = new ArrayList<String>();
 		Random rand = new Random();
 		int iterations = 0; 
-		List<Status> timeline = new ArrayList<Status>();
+		List<Status> timeline;
 /*		System.out.println(twitter.getRateLimitStatus());
 		if(twitter.getRateLimitStatus() < 5){
 			System.out.println("Waiting because I went over the rate limit :(");
@@ -39,7 +39,7 @@ public class MarkovBot extends TwitterBot {
 		}
 */		while(true){
 			if(publicTimeline){
-//				timeline = twitter.getPublicTimeline();
+				timeline = twitter.getPublicTimeline();
 			} else if (userToGetTimelineOf != null){
 				timeline = twitter.getUserTimeline(userToGetTimelineOf);
 			} else {
@@ -86,7 +86,7 @@ public class MarkovBot extends TwitterBot {
 		String[] words = sentence.split(" ");
 		MarkovElement<String> ele = head;
 		for(String word : words){
-			if(!word.equals("") && !word.contains("@"))
+			if(!word.equals("") && word.charAt(0) != '@')
 				ele = ele.insert(findElement(word));
 		}
 		ele.insert(TERMINATOR);
@@ -104,9 +104,7 @@ public class MarkovBot extends TwitterBot {
 	}
 	
 	public static void main(String[] args){
-		String userName = "";
-		String authFilePath = "";
-		MarkovBot bot = new MarkovBot(userName, authFilePath);
+		MarkovBot bot = new MarkovBot("markovchain2", "/home/jeff/workspace/TwitterBots/markovFile.txt");
 		while(true){
 			try{
 				bot.runBot(false, null);

@@ -1,8 +1,8 @@
-package com.blitztiger.twitterBotsTheThird;
+package com.blitztiger.twitterBots2;
 
 import java.util.*;
 
-import winterwell.jtwitter.Status;
+import winterwell.jtwitter.Twitter.Status;
 
 public class ReplacementBot extends TwitterBot {
 	
@@ -20,11 +20,11 @@ public class ReplacementBot extends TwitterBot {
 
 	@Override
 	public void runBot(boolean publicTimeline, String userToGetTimelineOf) throws Exception {
-		List<Status> timeline = new ArrayList<Status>();
+		List<Status> timeline;
 		List<String> alreadyTweeted = new ArrayList<String>();
 		while(true){
 			if(publicTimeline){
-//				timeline = twitter.getPublicTimeline();
+				timeline = twitter.getPublicTimeline();
 			} else if (userToGetTimelineOf != null){
 				timeline = twitter.getUserTimeline(userToGetTimelineOf);
 			} else {
@@ -113,10 +113,8 @@ public class ReplacementBot extends TwitterBot {
 		replacements.put(" AN #seX", " A #seX");
 		replacements.put(" AN #Sex", " A #Sex");
 		replacements.put(" AN #SEX", " A #SEX");
-
-		String userName = "";
-		String authFilePath = "";
-		ReplacementBot bot = new ReplacementBot(userName, authFilePath, replacements);
+		
+		ReplacementBot bot = new ReplacementBot("ProfessorSex", "/home/jeff/workspace/TwitterBots/sexFile.txt", replacements);
 		while(true){
 			try{
 				bot.runBot(false, null);
